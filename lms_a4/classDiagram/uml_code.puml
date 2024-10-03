@@ -3,16 +3,16 @@
 skinparam linetype ortho
 
 
-class Library{
--branchName: String
+class Library {
+    -name: String
 }
 
 abstract class Book {
--title: String
--author: String
--ISBN: String
--genre: Genre
--isAvailable: boolean
+    -title: String
+    -author: String
+    -ISBN: String
+    -genre: Genre
+    -isAvailable: boolean
 }
 
 enum Genre {
@@ -22,69 +22,72 @@ enum Genre {
     Mystery
 }
 
-class Ebook{
--fileFormat: String
--fileSize: double
+class Ebook {
+    -fileFormat: String
+    -fileSize: double
 }
 
-class PrintedBook{
--pagesCount:int
--physicalCondition: PhysicalCondition
-
+class PrintedBook {
+    -pagesCount: int
+    -physicalCondition: PhysicalCondition
 }
 
 enum PhysicalCondition {
-New
-Good
-Worn   
+    New
+    Good
+    Worn   
 }
 
-class Member{
--name: String
--memberID: String
--contactInfo: String
--currentBorrowedBooks: Integer
-+borrowBook(book:Book,borrowDate:Date,dueDate:Date)
-
+abstract class Person {
+    -name: String
+    -contactInfo: String
 }
 
-class BorrowedBookHistory {
--book: Book
--borrowDate: Date
--returnDate: Date 
+class Librarian {
+    -staffID: String
+    +addBook(String)
+    +removeBook(String)
+    +updateBookInfo(String)
 }
 
-class Librarian{
--staffID: String
--name: String
--contact: String
-+addBook(String)
-+removeBook(String)
-+updateBookInfo(String)
+class Member {
+    -memberID: String
+    -currentBorrowedBooks: Integer
+    +borrowBook(book: Book, borrowDate: Date,\n dueDate: Date)
 }
 
-class BorrowingSystem{
--member: Member
--book: Book
--borrowDate:Date
--dueDate:Date
-+trackBorrowByMember(member: Member)
-+trackBorrowByBook(book: Book)
-+returnBook(book: Book)
+class BorrowedHistory {
+    -book: Book
+    -borrowDate: Date
+    -returnDate: Date 
+}
 
+class BorrowingSystem {
+    -member: Member
+    -book: Book
+    -borrowDate: Date
+    -dueDate: Date
+    +listBorrowedByMember(member: Member)
+    +listBorrowedByBook(book: Book)
+    +returnBook(book: Book)
 }
 
 Book <|-- Ebook
 Book <|-- PrintedBook
 
-Member*--BorrowedBookHistory
+
+Person <|-- Librarian
+Person <|-- Member 
+
+Member *-[norank]- BorrowedHistory
 
 BorrowingSystem --> Member : tracks
 BorrowingSystem --> Book : tracks
-BorrowingSystem -->BorrowedBookHistory: creates
+BorrowingSystem --> BorrowedHistory : creates
 
+Library *-- Librarian : employs
 Library o-- Book : has
-Library o-- Member : has
-Library o-- Librarian : has
+Library *-[norank]- Member : owns
 Library --> BorrowingSystem : manages
+
 @enduml
