@@ -5,6 +5,12 @@ skinparam linetype ortho
 
 class Library {
     -name: String
+    +getName(): String
+    +getLibrarians(): List<Librarian>
+    +getMembers():List<Member>
+    +getBooks():List<Book>
+    +getBorrowingSystem():BorrowingSystem
+
 }
 
 abstract class Book {
@@ -13,6 +19,12 @@ abstract class Book {
     -ISBN: String
     -genre: Genre
     -isAvailable: boolean
+    +getTitle(): String
+    +getAuthor(): String
+    +getISBN(): String
+    +getGenre(): Genre
+    +getIsAvailable(): boolean
+    +setAvailable(IsAvailable: boolean): void
 }
 
 enum Genre {
@@ -25,11 +37,15 @@ enum Genre {
 class Ebook {
     -fileFormat: String
     -fileSize: double
+    +getFileFormat(): String
+    +getFileSize(): double
 }
 
 class PrintedBook {
     -pagesCount: int
     -physicalCondition: PhysicalCondition
+    +getPagesCount(): Integer
+    +getPhysicalCondition(): PhysicalCondition
 }
 
 enum PhysicalCondition {
@@ -41,39 +57,47 @@ enum PhysicalCondition {
 abstract class Person {
     -name: String
     -contactInfo: String
+    +getName(): String
+    +getContactInfo(): String
 }
 
 class Librarian {
     -staffID: String
-    +addBook(String)
-    +removeBook(String)
-    +updateBookInfo(String)
+    +addBook(bookTitle: String): void
+    +removeBook(bookTitle: String): void
+    +updateBookInfo(bookTitle: String): void
+    +getStaffId(): String
 }
 
 class Member {
     -memberID: String
     -currentBorrowedBooks: Integer
-    +borrowBook(book: Book, borrowDate: Date,\n dueDate: Date)
+    +borrowBook(book: Book, borrowDate: Date,\n dueDate: Date): void
+    +getMemberID():String
+    +getCurrentBorrowedBooks():Integer
 }
 
 class BorrowedHistory {
     -book: Book
     -borrowDate: Date
     -returnDate: Date 
+    +getBook(): Book
+    +getBorrowDate(): Date
+    +getReturnDate(): Date
 }
 
+
 class BorrowingSystem {
-    -member: Member
-    -book: Book
-    -borrowDate: Date
-    -dueDate: Date
-    +listBorrowedByMember(member: Member)
-    +listBorrowedByBook(book: Book)
-    +returnBook(book: Book)
+    +listBorrowedByMember(member: Member): void
+    +listBorrowedByBook(book: Book): void
+    +returnBook(book: Book): void
 }
 
 Book <|-- Ebook
 Book <|-- PrintedBook
+
+
+
 
 
 Person <|-- Librarian
